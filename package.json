@@ -1,0 +1,26 @@
+{
+  "name": "@lakaflibrairies/notif-client",
+  "version": "1.0.0",
+  "description": "Library to listen events source in js applications, based on state-management.",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lakaflibrairies/in-app-router.git"
+  },
+  "keywords": [
+    "lakaflibrairies",
+    "js",
+    "web"
+  ],
+  "author": "Vaneck KAFFO(LaKaf Librairies)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lakaflibrairies/in-app-router/issues"
+  },
+  "homepage": "https://github.com/lakaflibrairies/in-app-router#readme",
+  "devDependencies": {
+    "jest": "^29.3.1"
+  }
+}
