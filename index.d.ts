@@ -10,6 +10,8 @@ type ClientTypeValue =
   | "unknown-client";
 
 export declare class NotificationClient {
+  private timer: NodeJS.Timeout;
+  private time: number;
   private clientId: string;
   private message: string;
   private b: {
@@ -49,6 +51,7 @@ export declare class NotificationClient {
     eventName: string,
     eventCallback: (message: MessageEvent) => void
   ): void;
+  private startHiTimer(): void;
   /**
    * @param { string } data - Stringified data
    */
