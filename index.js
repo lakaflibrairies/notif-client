@@ -1,7 +1,8 @@
 /**
  * @param {{
  *   clientType: "website" | "web-app" | "mobile-app" | "desktop-app" | "client-test" | "unknown-client";
- * }} param0
+ *   eventPath: string;
+ * }} options
  */
 function NotificationClient(host = location.origin, options) {
   const { clientType = "unknown-client", eventPath = "notifications" } =
@@ -145,9 +146,11 @@ function NotificationClient(host = location.origin, options) {
     writable: false,
     value: (event, cb) => {
       if (typeof cb !== "function") {
-        return;
+        throw new Error("Expected a function but got " + typeof cb + ".");
       }
       listeners[event] = cb;
     },
   });
 }
+
+exports.NotificationClient = NotificationClient;
