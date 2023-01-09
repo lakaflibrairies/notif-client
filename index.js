@@ -55,7 +55,7 @@ function NotificationClient(host = location.origin, options) {
   };
   const url = `${host}/${eventPath}/notify-me`;
   const listeners = {};
-  const timer = null;
+  let timer = null;
 
   const api = ({ body }) => {
     return new Promise((resolve, reject) => {
