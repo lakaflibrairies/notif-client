@@ -5,8 +5,11 @@
  * }} options
  */
 function NotificationClient(host = location.origin, options) {
-  const { clientType = "unknown-client", eventPath = "notifications" } =
-    options || {};
+  const {
+    clientType = "unknown-client",
+    eventPath = "notifications",
+    time = 5,
+  } = options || {};
   const validateHost = (value) => {
     try {
       new URL(value);
@@ -52,6 +55,7 @@ function NotificationClient(host = location.origin, options) {
   };
   const url = `${host}/${eventPath}/notify-me`;
   const listeners = {};
+  const timer = null;
 
   const api = ({ body }) => {
     return new Promise((resolve, reject) => {
@@ -80,7 +84,8 @@ function NotificationClient(host = location.origin, options) {
     return new EventSource(computeUrl());
   };
 
-  const send = (eventName, { body, headers }) => {
+  const send = (eventName, config = {}) => {
+    const { body = {}, headers = {} } = config;
     let newB = JSON.parse(JSON.stringify(b));
     newB.endpoint = eventName;
     newB.payload = body;
@@ -99,6 +104,20 @@ function NotificationClient(host = location.origin, options) {
   };
 
   let es = createEventSource();
+
+  const startHiTimer = () => {
+    if (timer) {
+      clearTimeout(timer);
+    }
+
+    timer = setTimeout(() => {
+      send("hi").catch((error) => {
+        console.log("Unable to hi server.");
+        console.error(error);
+      });
+      startHiTimer();
+    }, time * 1000);
+  };
 
   const onResetConnection = (data) => {
     es.close();
@@ -125,6 +144,7 @@ function NotificationClient(host = location.origin, options) {
           receive: (eventName, eventCallback) =>
             receive(es, eventName, eventCallback),
         });
+        startHiTimer();
       })
       .catch((error) => {
         console.log("An error occur.");
