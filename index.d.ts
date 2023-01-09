@@ -37,7 +37,7 @@ export declare class NotificationClient {
     options: { clientType: ClientTypeValue; eventPath: string }
   );
 
-  private api<T, A>({ body: A }): Promise<T>;
+  private api<T, A>(config: { body: A }): Promise<T>;
   private computeUrl(): string;
   private createEventSource(): EventSource;
   private send<T>(
