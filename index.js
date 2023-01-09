@@ -85,11 +85,15 @@ function NotificationClient(host = location.origin, options) {
   };
 
   const send = (eventName, config = {}) => {
-    const { body = {}, headers = {} } = config;
+    const { body = null, headers = null } = config;
     let newB = JSON.parse(JSON.stringify(b));
     newB.endpoint = eventName;
-    newB.payload = body;
-    newB.head = headers;
+    if (!!body) {
+      newB.payload = body;
+    }
+    if (!!headers) {
+      newB.head = headers;
+    }
 
     return api({ body: JSON.stringify(newB) }).catch((error) => {
       console.log("An error occur.");
