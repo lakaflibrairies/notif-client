@@ -150,8 +150,7 @@ function NotificationClient(host = location.origin, options) {
     newB.payload.clientType = b.reserved.clientType;
 
     api({ body: JSON.stringify(newB) })
-      .then(({ result }) => {
-        console.log(result);
+      .then((result) => {
         const { keyLength, timeout } = result;
         serverKeyLength = keyLength;
         serverTimeout = timeout;
