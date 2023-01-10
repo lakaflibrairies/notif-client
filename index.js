@@ -91,7 +91,7 @@ function NotificationClient(host = location.origin, options) {
       return serverTimeout;
     }
 
-    return minTime + Math.floor(Math.random() * (serverKeyLength - minTime));
+    return minTime + Math.floor(Math.random() * (serverTimeout - minTime));
   };
 
   const send = (eventName, config = {}) => {
