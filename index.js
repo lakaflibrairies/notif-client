@@ -8,7 +8,7 @@ function NotificationClient(host = location.origin, options) {
   const {
     clientType = "unknown-client",
     eventPath = "notifications",
-    time = 5,
+    minTime = 5,
   } = options || {};
   const validateHost = (value) => {
     try {
@@ -56,6 +56,8 @@ function NotificationClient(host = location.origin, options) {
   const url = `${host}/${eventPath}/notify-me`;
   const listeners = {};
   let timer = null;
+  let serverKeyLength = 0;
+  let serverTimeout = 0;
 
   const api = ({ body }) => {
     return new Promise((resolve, reject) => {
@@ -82,6 +84,14 @@ function NotificationClient(host = location.origin, options) {
 
   const createEventSource = () => {
     return new EventSource(computeUrl());
+  };
+
+  const generateTimeoutValue = () => {
+    if (serverTimeout <= minTime) {
+      return serverTimeout;
+    }
+
+    return minTime + Math.floor(Math.random() * (serverKeyLength - minTime));
   };
 
   const send = (eventName, config = {}) => {
@@ -120,7 +130,7 @@ function NotificationClient(host = location.origin, options) {
         console.error(error);
       });
       startHiTimer();
-    }, time * 1000);
+    }, generateTimeoutValue() * 1000);
   };
 
   const onResetConnection = (data) => {
@@ -141,6 +151,10 @@ function NotificationClient(host = location.origin, options) {
 
     api({ body: JSON.stringify(newB) })
       .then(({ result }) => {
+        console.log(result);
+        const { keyLength, timeout } = result;
+        serverKeyLength = keyLength;
+        serverTimeout = timeout;
         es = createEventSource();
         loadEventSource();
         listeners["ready"]({
