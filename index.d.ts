@@ -38,7 +38,11 @@ export declare class NotificationClient {
    */
   constructor(
     host: string,
-    options: { clientType: ClientTypeValue; eventPath: string }
+    options: {
+      clientType?: ClientTypeValue;
+      eventPath?: string;
+      minTime?: number;
+    }
   );
 
   private api<T, A>(config: { body: A }): Promise<T>;
