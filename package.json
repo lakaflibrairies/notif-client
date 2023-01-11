@@ -1,6 +1,6 @@
 {
   "name": "@lakaflibrairies/notif-client",
-  "version": "1.1.2",
+  "version": "1.1.7",
   "description": "This is small library for use event source in conjunction with @lakaflibrairies/notif.",
   "scripts": {
     "test": "jest"

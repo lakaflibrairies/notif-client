@@ -11,7 +11,9 @@ type ClientTypeValue =
 
 export declare class NotificationClient {
   private timer: NodeJS.Timeout;
-  private time: number;
+  private minTime: number;
+  private serverKeyLength: number;
+  private serverTimeout: number;
   private clientId: string;
   private message: string;
   private b: {
@@ -36,7 +38,11 @@ export declare class NotificationClient {
    */
   constructor(
     host: string,
-    options: { clientType: ClientTypeValue; eventPath: string }
+    options: {
+      clientType?: ClientTypeValue;
+      eventPath?: string;
+      minTime?: number;
+    }
   );
 
   private api<T, A>(config: { body: A }): Promise<T>;
@@ -61,6 +67,7 @@ export declare class NotificationClient {
    */
   private onReconnection(data: string): void;
   private loadEventSource(): void;
+  private generateTimeoutValue(): number;
   public addEventListener(
     eventListened: string,
     callback: (data: {
